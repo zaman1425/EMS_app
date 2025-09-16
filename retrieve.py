@@ -138,7 +138,7 @@ def get_employee():
     return render_template('view_emp.html', employee=employee)
 
 @app.route("/exit-page")
-def exit_page():
+def exit_pages():
     return render_template("exit.html")
 
     
