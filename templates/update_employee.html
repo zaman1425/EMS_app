@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <!-- Link your custom stylesheet -->
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --background-color: #f4f7f9;
+            --card-background: #ffffff;
+            --border-color: #e2e8f0;
+            --text-color: #333;
+            --label-color: #555;
+            --error-color: #d9534f;
+            --success-color: #28a745;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 50px 20px;
+        }
+        
+        .container {
+            background-color: var(--card-background);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        h1 {
+            color: var(--text-color);
+            font-size: 28px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--label-color);
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            color: var(--text-color);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+        
+        textarea {
+            resize: vertical;
+        }
+        
+        input[readonly] {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+        }
+        
+        button[type="submit"] {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            background-color: #fdd;
+            border: 1px solid var(--error-color);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="mod-page">
+    <div class="container">
+        {% if employee %}
+            <h1>Employee Found: {{ employee.wrk_name }}</h1>
+            <form action="/update_employee" method="POST">
+                <input type="hidden" name="update_eno" value="{{ employee.wrk_no }}">
+                
+                <div class="form-group">
+                    <label for="eno">Employee Number</label>
+                    <input type="text" id="eno" name="eno" value="{{ employee.wrk_no }}" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ename">Employee Name</label>
+                    <input type="text" id="ename" name="ename" value="{{ employee.wrk_name }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="eage">Employee Age</label>
+                    <input type="text" id="eage" name="eage" value="{{ employee.wrk_age }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="ejob">Employee Job</label>
+                    <input type="text" id="ejob" name="ejob" value="{{ employee.wrk_job }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="esalary">Employee Salary</label>
+                    <input type="text" id="esalary" name="esalary" value="{{ employee.wrk_salary }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="eadr">Employee Address</label>
+                    <textarea id="eadr" name="eadr" rows="3">{{ employee.wrk_adr }}</textarea>
+                </div>
+
+                <button type="submit">Update</button>
+            </form>
+        {% elif error %}
+            <div class="error-message">
+                <h1>Search Failed</h1>
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+        <p><a class="back-link" href="{{ url_for('home') }}">Back to Home</a></p>
+    </div>
+</body>
+</html>

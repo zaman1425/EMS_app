@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>Employee updated successfully</title>
+    </head>
+    <style>
+        body{
+            background-color:lightskyblue;
+        }
+        button{
+            margin-left: 45%;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <body>
+        <h1 style="text-align: center">Employee Details updated successfully</h1>
+        <a href="{{ url_for('home') }}">
+            <button type="button">Back to home</button>
+        </a>
+    </body>
+</html>

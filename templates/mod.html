@@ -1,0 +1,111 @@
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../static/images/.css/style.css"
+    />
+    <title>Modify Employee</title>
+  </head>
+  <style>
+body.mod-page {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+body.mod-page h1 {
+  font-size: 2em;
+  color: #1c2b36;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+body.mod-page form {
+  background-color: #ffffff; 
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+  width: 100%;
+  max-width: 400px; 
+}
+
+body.mod-page form div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; 
+}
+
+body.mod-page label {
+  font-weight: 600; 
+  margin-bottom: 5px;
+  color: #555;
+}
+
+body.mod-page input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+  box-sizing: border-box; /* Include padding and border in the element's total width */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.mod-page input[type="text"]:focus {
+  border-color: #2196F3; /* Highlight border on focus */
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2); 
+}
+
+body.mod-page input[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #2196F3; /* Blue background */
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  margin-top: 10px;
+}
+
+body.mod-page input[type="submit"]:hover {
+  background-color: #1e88e5; /* Darker blue on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+body.mod-page input[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+  </style>
+  <body class="mod-page">
+    <h1 style="text-align: center">Employee Modification</h1>
+    <form action="/srch" method="GET">
+      <div>
+        <label for="eno">Employee Number</label>
+        <input
+          type="text"
+          id="eno"
+          name="eno"
+          placeholder="Enter number"
+          required
+        /><br />
+        <input type="submit" value="Search" /><br />
+      </div>
+    </form>
+  </body>
+</html>

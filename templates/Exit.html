@@ -1,0 +1,29 @@
+<html>
+    <style>
+        button{
+            align-items: center;
+            border-radius:10%;
+            border-width: 10px;
+            border-color:greenyellow;
+            margin-left: 690px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            max-height: 50px;
+            margin-top: 80px;
+            color:blueviolet
+        }
+        h2{
+            margin-left: 600px;
+            color:cadetblue;
+            width: 350px;
+            margin-top: 250px;
+            font-size: 30;
+        }
+
+    </style>
+    <body style="background-color:lightgray; border-style: double;">
+        <h2>You are in the Exit page</h2>
+        <a href="{{url_for('home')}}">
+            <button type="button">Back to home</button>
+        </a>
+    </body>
+</html>

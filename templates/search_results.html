@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Employee Details</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --background-color: #f4f7f9;
+            --card-background: #ffffff;
+            --border-color: #e2e8f0;
+            --text-color: #333;
+            --label-color: #555;
+            --input-focus-color: #2196F3;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        form {
+            background-color: var(--card-background);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+
+        .form-group {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            width: 150px;
+            font-weight: 600;
+            color: var(--label-color);
+            text-align: left;
+        }
+
+        input[type="text"], textarea {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: var(--input-focus-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button, input[type="submit"] {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-transform: uppercase;
+        }
+
+        input[type="submit"] {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        button[type="reset"] {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .cancel-button {
+            background-color: var(--warning-color);
+            color: var(--text-color);
+        }
+
+        button:hover, input[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .error {
+            font-size: 0.9em;
+            position: absolute;
+            top: 100%;
+            left: 150px;
+            color: var(--danger-color);
+            display: none;
+            margin-top: 5px;
+        }
+
+        input.invalid {
+            border-color: var(--danger-color) !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>ENTER EMPLOYEE DETAILS</h1>
+    <form action="{{url_for('search')}}" method="POST">
+        <div class="form-group">
+            <label for="eno">Employee Number</label>
+            <input type="text" id="eno" name="eno" placeholder="Enter number" required>
+        </div>
+        <div class="form-group">
+            <label for="ename">Employee Name</label>
+            <input type="text" id="ename" name="ename" placeholder="Enter name" required>
+            <span id="ename-msg" class="error">Name should not exceed more than 50 characters.</span>
+        </div>
+        <div class="form-group">
+            <label for="eage">Employee Age</label>
+            <input type="text" id="eage" name="eage" placeholder="Enter age">
+        </div>
+        <div class="form-group">
+            <label for="ejob">Employee Job</label>
+            <input type="text" id="ejob" name="ejob" placeholder="Enter job">
+        </div>
+        <div class="form-group">
+            <label for="esalary">Employee Salary</label>
+            <input type="text" id="esalary" name="esalary" placeholder="Enter the salary">
+        </div>
+        <div class="form-group">
+            <label for="eadr">Employee Address</label>
+            <textarea id="eadr" name="eadr" rows="3" placeholder="Enter the address"></textarea>
+        </div>
+        <div class="button-container">
+            <button type="button" class="cancel-button" onclick="confirmCancel()">Cancel</button>
+            <button type="reset">Clear</button>
+            <input type="submit" value="Submit">
+        </div>
+    </form>  
+    <script>
+        document.getElementById("ename").addEventListener("input", function() {
+            let msg = document.getElementById("ename-msg");
+            if (this.value.length > 50) {
+                this.classList.add("invalid");
+                msg.style.display = "inline";
+            } else {
+                this.classList.remove("invalid");
+                msg.style.display = "none";
+            }
+        });
+
+        function confirmCancel() {
+            let res = confirm("Are you sure you want to cancel?");
+            if (res === true) {
+                window.location.href = "{{ url_for('home') }}";
+            }
+        }
+    </script>
+</body>
+</html>
