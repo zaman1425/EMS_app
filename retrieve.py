@@ -135,7 +135,7 @@ def get_employee():
         
     if employee is None:
         abort(404)
-    return render_template('view_emp.html', employee=employee)
+    return render_template('view_emp.html', employe=employee)
 
 @app.route("/exit-page")
 def exit_pages():
