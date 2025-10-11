@@ -1,44 +1,47 @@
-pipeline{
-agent any
-environment{
-    DOCKERHUB_USERNAME="zaman1425"
-    IMAGE_NAME="${zaman1425}/ems_app"
-    DOCKERHUB_CREDENTIALS= credentials('docker-hub-cred')
-    KUBECONFIG_CREDENTIALS= credentials('minikube-kubeconfig')
-}
-stages{
-    stage('checkout code'){
-        steps{
-            git branch: 'main', url: 'https://github.com/zaman1425/ems_app.git'
-        }
+pipeline {
+    agent any
+    environment {
+        DOCKER_IMAGE = "yourdockerhubusername/flask-app"
     }
-    stage('build docker image'){
-        steps{
-            script{
-                sh 'minikube docker-env'
-                sh "docker-built -t ${ems_app}:${BUILD_NAME} ."
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', credentialsId: 'github-creds', url: 'https://github.com/zaman1425/EMS_app.git'
+            }
+        }
+        stage('Build & Test') {
+            steps {
+                sh '''
+                pip install -r requirements.txt
+                pytest || true
+                '''
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $DOCKER_IMAGE:latest .'
+            }
+        }
+        stage('Push to DockerHub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                    docker push $DOCKER_IMAGE:latest
+                    '''
+                }
+            }
+        }
+        stage('Deploy to Minikube') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig-file', variable: 'KUBECONFIG')]) {
+                    sh '''
+                    kubectl --kubeconfig=$KUBECONFIG apply -f k8s/deployment.yaml
+                    kubectl --kubeconfig=$KUBECONFIG apply -f k8s/service.yaml
+                    kubectl rollout status deployment/flask-app-deployment
+                    '''
+                }
             }
         }
     }
-
-    stage('push docker image to docker hub'){
-        steps{
-            withcredentials([usernamepassword(credentialsID: "${docker-hub-cred}", usernameVariable: 'DOCKERHUB_USER', passwordVraiable: 'DOCKERHUB_PASS')]){
-                sh "echo ${DOCKERHUB_PASS} | docker login -u ${DOCKERHUB_USER} --password-stdin"
-                sh "docker push ${ems_app}:${BUILD_NAME}"
-            }
-        }
-    }
-
-    stage('deploy to minikube'){
-        steps{
-            withcredentials([file(credentialsID: "${minikube-kubeconfig}", variable: 'KUBECONFIG_FILE')]){
-                sh 'kubectl config use-context minikube'
-                sh 'kubectl apply -f deployment.yaml'
-                sh 'kubectl apply -f service.yaml'
-            }
-        }
-    }
-
-}
 }
